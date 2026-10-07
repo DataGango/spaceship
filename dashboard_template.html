@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Space Observatory | Collected Articles</title>
+  <style>
+    :root{--ink:#20333a;--muted:#66767b;--line:#d9e2e4;--teal:#00796d;--red:#c45647;--paper:#f5f8f8}
+    *{box-sizing:border-box}body{margin:0;color:var(--ink);background:var(--paper);font:15px/1.6 'Avenir Next',Avenir,'Segoe UI',sans-serif}
+    header{background:white;border-bottom:1px solid var(--line);padding:20px 30px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    h1{font:32px/1.2 Georgia,serif;margin:0}header p{margin:3px 0 0;color:var(--muted);font-size:12px}.mark{width:60px;height:60px}
+    main{max-width:1400px;margin:auto;padding:24px 30px}a{color:var(--teal);overflow-wrap:anywhere}button,input,select{font:inherit}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:16px;gap:20px}
+    .stats strong{font:30px Georgia,serif;display:block}.stats span{font-size:12px;color:var(--muted)}
+    .chat{border-top:3px solid var(--teal);padding:18px 0;margin-bottom:24px}.chat h2{font:26px Georgia,serif;margin:0 0 10px}.chat textarea{width:100%;min-height:85px;padding:12px;font:inherit;border:1px solid var(--line);border-radius:4px}.chat button{padding:9px 16px;margin:8px 8px 8px 0;background:var(--teal);color:white;border:0;border-radius:4px;cursor:pointer}.chat button:disabled{opacity:.6;cursor:wait}.chat-message{white-space:pre-wrap;overflow-wrap:anywhere;border-bottom:1px solid var(--line);padding:14px 0}.chat-message a{display:block;font-size:12px}.chat-status{font-size:12px;color:var(--muted)}
+    .note{border-left:3px solid var(--red);padding:10px 14px;background:#fff1ed;font-size:13px;margin:18px 0}
+    .workspace{display:grid;grid-template-columns:350px minmax(0,1fr);gap:30px;align-items:start}
+    .controls{display:grid;gap:10px;margin-bottom:16px}input,select{width:100%;border:1px solid var(--line);padding:10px;background:white;border-radius:4px}label{font-size:12px;color:var(--muted)}
+    .item{display:block;width:100%;text-align:left;padding:17px;margin:0 0 10px;background:white;border:1px solid var(--line);border-radius:4px;cursor:pointer;color:var(--ink)}
+    .item[aria-pressed=true]{border-color:var(--teal);box-shadow:inset 3px 0 var(--teal)}.item:hover{background:#eef7f5}.item strong{display:block;font-size:15px;line-height:1.4}.item span{display:block;font-size:11px;color:var(--muted);margin-top:6px}
+    .reader{min-width:0;border-top:3px solid var(--teal);padding-top:17px}.reader h2{font:30px/1.25 Georgia,serif;margin:0 0 16px}.metadata{display:grid;grid-template-columns:1fr 1fr;gap:8px 20px;color:var(--muted);font-size:12px;border-bottom:1px solid var(--line);padding-bottom:17px;margin-bottom:20px}
+    #article-text p{margin:0 0 17px;white-space:pre-wrap;overflow-wrap:anywhere;max-width:850px}.source{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:22px}.source button{border:1px solid var(--line);background:white;padding:5px 12px;border-radius:4px;cursor:pointer}
+    details{border-top:1px solid var(--line);margin-top:26px;padding-top:15px}summary{cursor:pointer;color:var(--teal)}.event{padding:8px 0;border-bottom:1px solid var(--line);font-size:12px;overflow-wrap:anywhere}.empty{color:var(--muted)}:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
+    @media(max-width:850px){.workspace{grid-template-columns:1fr}.metadata{grid-template-columns:1fr}main{padding:20px 16px}header{padding:18px 16px}.stats{gap:10px}.reader h2{font-size:26px}}
+  </style>
+</head>
+<body>
+  <header><div><h1>Space Observatory</h1><p>Local collection / source-linked reading desk</p></div><svg class="mark" viewBox="0 0 80 80" role="img" aria-label="Orbital illustration"><circle cx="40" cy="40" r="12" fill="#00796d"/><ellipse cx="40" cy="40" rx="34" ry="19" transform="rotate(-32 40 40)" fill="none" stroke="#66767b" stroke-width="2"/><circle cx="65" cy="20" r="5" fill="#c45647"/></svg></header>
+  <main>
+    <div class="stats"><div><strong id="count">0</strong><span>Stored articles</span></div><div><strong id="publishers">0</strong><span>Publishers collected</span></div><div><strong id="words">0</strong><span>Extracted words</span></div></div>
+    <p class="note" id="coverage"></p>
+    <section class="chat" aria-labelledby="chat-title">
+      <h2 id="chat-title">Ask about space</h2>
+      <p class="chat-status" id="chat-status" role="status">Connecting to local agent...</p>
+      <form id="chat-form"><label for="question">Question</label><textarea id="question" required maxlength="1000" placeholder="What will Dragon deliver to the space station?"></textarea><button id="ask" type="submit">Ask</button><button id="collect" type="button">Refresh sources</button></form>
+      <p class="chat-status">Questions and answers are saved locally. Do not enter private information. Answers cover only collected sources and may be incomplete.</p>
+      <div id="conversation" aria-live="polite"></div>
+    </section>
+    <div class="workspace"><aside><div class="controls"><label for="query">Search collected text</label><input id="query" type="search" placeholder="Mission, spacecraft, research..."><label for="publisher">Publisher</label><select id="publisher"><option value="">All publishers</option></select></div><div id="articles"></div></aside>
+      <article class="reader" aria-live="polite"><h2 id="title">Select an article</h2><div class="metadata" id="metadata"></div><div class="source"><a id="source" target="_blank" rel="noopener noreferrer">Open original article</a><button id="download" type="button">Download article JSON</button></div><div id="article-text"></div></article></div>
+    <details><summary>Latest collection run</summary><div id="events"></div></details>
+  </main>
+  <script id="collected-data" type="application/json">__COLLECTED_DATA__</script>
+  <script>
+    const data=JSON.parse(document.querySelector('#collected-data').textContent);
+    const records=data.articles;
+    let selected=records[0]||null;
+    const names=[...new Set(records.map(record=>record.publisher))];
+    document.querySelector('#count').textContent=records.length;
+    document.querySelector('#publishers').textContent=names.length;
+    document.querySelector('#words').textContent=records.reduce((total,record)=>total+record.text.trim().split(/\s+/).length,0).toLocaleString();
+    document.querySelector('#coverage').textContent=names.includes('European Space Agency')?'This is a limited feed sample, not a comprehensive space-news archive. Launch plans and dates may change.':'This collection contains NASA articles only. ESA was not collected in the two-article run. This is a limited snapshot; launch plans and dates may change.';
+    for(const name of names){const option=document.createElement('option');option.value=name;option.textContent=name;document.querySelector('#publisher').append(option)}
+    function show(record){
+      selected=record;
+      document.querySelector('#title').textContent=record.title;
+      const metadata=document.querySelector('#metadata');metadata.replaceChildren();
+      for(const label of [`Publisher: ${record.publisher}`,`Published: ${record.published_at||'Not available in extraction'}`,`Retrieved: ${new Date(record.retrieved_at).toLocaleString()}`,`${record.text.length.toLocaleString()} characters`]){const element=document.createElement('span');element.textContent=label;metadata.append(element)}
+      const source=document.querySelector('#source');source.href=record.url;
+      const body=document.querySelector('#article-text');body.replaceChildren();
+      for(const paragraph of record.text.split(/\n\n+/)){const element=document.createElement('p');element.textContent=paragraph;body.append(element)}
+      list();
+    }
+    function list(){
+      const term=document.querySelector('#query').value.toLowerCase().trim();
+      const publisher=document.querySelector('#publisher').value;
+      const matches=records.filter(record=>(!publisher||record.publisher===publisher)&&(`${record.title} ${record.text}`).toLowerCase().includes(term));
+      const container=document.querySelector('#articles');container.replaceChildren();
+      for(const record of matches){const button=document.createElement('button');button.className='item';button.type='button';button.setAttribute('aria-pressed',String(selected===record));const title=document.createElement('strong');title.textContent=record.title;const meta=document.createElement('span');meta.textContent=`${record.publisher} / ${record.text.length.toLocaleString()} characters`;button.append(title,meta);button.addEventListener('click',()=>show(record));container.append(button)}
+      if(!matches.length){const message=document.createElement('p');message.className='empty';message.textContent='No matching articles.';container.append(message)}
+    }
+    document.querySelector('#query').addEventListener('input',list);
+    document.querySelector('#publisher').addEventListener('change',list);
+    document.querySelector('#download').addEventListener('click',()=>{if(!selected)return;const url=URL.createObjectURL(new Blob([JSON.stringify(selected,null,2)],{type:'application/json'}));const link=document.createElement('a');link.href=url;link.download='space-article.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});
+    for(const event of data.events){const element=document.createElement('div');element.className='event';element.textContent=`${event.status}: ${event.url}${event.reason?' / '+event.reason:''}`;document.querySelector('#events').append(element)}
+    if(selected)show(selected);else{list();document.querySelector('.source').hidden=true}
+    const chatStatus=document.querySelector('#chat-status');
+    function showAnswer(result){
+      const entry=document.createElement('div');entry.className='chat-message';
+      const heading=document.createElement('strong');heading.textContent=result.question;
+      const mode=document.createElement('p');mode.className='chat-status';mode.textContent=`${result.mode} / ${new Date(result.created_at).toLocaleString()}`;
+      const body=document.createElement('p');body.textContent=result.answer;
+      entry.append(heading,mode,body);
+      for(const source of result.sources){const link=document.createElement('a');link.href=source.url;link.textContent=`[${source.id}] ${source.title}`;link.target='_blank';link.rel='noopener noreferrer';entry.append(link)}
+      document.querySelector('#conversation').prepend(entry);
+    }
+    fetch('/api/status').then(response=>response.json()).then(status=>{chatStatus.textContent=status.llm_configured?'LLM connected / answers use saved sources':`Retrieval-only mode / ${status.articles} articles. Set OPENAI_API_KEY on the backend for generated answers.`}).catch(()=>{chatStatus.textContent='Start server.py to use chat and collection controls.'});
+    fetch('/api/history').then(response=>response.json()).then(history=>history.forEach(showAnswer)).catch(()=>{});
+    document.querySelector('#chat-form').addEventListener('submit',async event=>{
+      event.preventDefault();const button=document.querySelector('#ask');button.disabled=true;chatStatus.textContent='Retrieving evidence...';
+      try{const response=await fetch('/api/ask',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({question:document.querySelector('#question').value})});const result=await response.json();if(!response.ok)throw Error(result.error);showAnswer(result);chatStatus.textContent='Answer saved locally.';}catch(error){chatStatus.textContent=error.message}finally{button.disabled=false}
+    });
+    document.querySelector('#collect').addEventListener('click',async()=>{
+      const button=document.querySelector('#collect');button.disabled=true;chatStatus.textContent='Collecting up to 10 new articles; this may take a few minutes...';
+      try{const response=await fetch('/api/collect',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});const result=await response.json();if(!response.ok||!result.success)throw Error(result.error||'Collection failed');location.reload()}catch(error){chatStatus.textContent=error.message;button.disabled=false}
+    });
+  </script>
+</body>
+</html>

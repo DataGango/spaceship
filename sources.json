@@ -1,0 +1,12 @@
+[
+  {
+    "name": "NASA",
+    "feed": "https://www.nasa.gov/feed/",
+    "allowed_hosts": ["www.nasa.gov", "science.nasa.gov"]
+  },
+  {
+    "name": "European Space Agency",
+    "feed": "https://www.esa.int/rssfeed/Our_Activities/Space_Science",
+    "allowed_hosts": ["www.esa.int"]
+  }
+]
