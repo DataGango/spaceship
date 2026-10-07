@@ -182,5 +182,7 @@
       try{const response=await fetch('/api/research',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});const result=await response.json();if(!response.ok||!result.success)throw Error(result.events?.map(event=>event.reason).filter(Boolean).join('; ')||result.error||'No research abstracts collected');location.reload()}catch(error){chatStatus.textContent=error.message}finally{button.disabled=false}
     });
   </script>
+  <link rel="stylesheet" href="__ASSET_BASE__navigation.css">
+  <script src="__ASSET_BASE__navigation.js"></script>
 </body>
 </html>

@@ -58,7 +58,7 @@ def build(public=False):
     payload = json.dumps({"articles": articles, "events": events, "public": public, "generated_at": datetime.now(timezone.utc).isoformat()}, ensure_ascii=True).replace("<", "\\u003c")
     output = ROOT / "public/index.html" if public else ROOT / "dashboard.html"
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(template.replace("__COLLECTED_DATA__", payload), encoding="utf-8")
+    output.write_text(template.replace("__COLLECTED_DATA__", payload).replace("__ASSET_BASE__", "" if public else "public/"), encoding="utf-8")
     print("Dashboard: {} ({} articles)".format(output, len(articles)))
     return output
 

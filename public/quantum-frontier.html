@@ -26,5 +26,7 @@
 <script>
 document.querySelector('#quantum-search').addEventListener('submit',event=>{event.preventDefault();const query=[document.querySelector('#area').value,document.querySelector('#terms').value.trim()].filter(Boolean).join(' ');const url=new URL('https://arxiv.org/search/physics');url.searchParams.set('query',query);url.searchParams.set('searchtype','all');url.searchParams.set('order','-announced_date_first');window.open(url.href,'_blank','noopener,noreferrer');document.querySelector('#search-status').textContent=`Research query: ${query}`;});
 </script>
+<link rel="stylesheet" href="navigation.css">
+<script src="navigation.js"></script>
 </body>
 </html>

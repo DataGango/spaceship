@@ -44,5 +44,7 @@ document.querySelector('#step').onclick=()=>{stop();advance();};document.querySe
 board.onclick=event=>{stop();route=[];const box=board.getBoundingClientRect(),point=[Math.floor((event.clientX-box.left)/box.width*cols),Math.floor((event.clientY-box.top)/box.height*rows)];if(point[0]<0||point[0]>=cols||point[1]<0||point[1]>=rows)return;const mode=document.querySelector('#mode').value;if(mode==='obstacle'){if(key(point)!==key(robot)&&key(point)!==key(goal)){walls.has(key(point))?walls.delete(key(point)):walls.add(key(point));}}else if(!walls.has(key(point))){if(mode==='goal')goal=point;else{start=point;robot=[...point];steps=0;}}status('Terrain updated');draw();};
 for(const button of document.querySelectorAll('.toolbar button'))button.disabled=!window.PF;status(window.PF?'EX-01 ready for mission planning':'Planner unavailable. Reload when the library can be reached.');draw();
 </script>
+<link rel="stylesheet" href="navigation.css">
+<script src="navigation.js"></script>
 </body>
 </html>
