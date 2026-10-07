@@ -17,6 +17,40 @@ python -m unittest -v
 
 ## Dashboard
 
+### Public dashboard
+
+The public article index is hosted at https://datagango.github.io/spaceship/ after
+the Pages workflow completes. It displays titles, dates, publisher counts and
+original-source links only. It does not expose full scraped text, saved chats,
+credentials, or the localhost chatbot. Regenerate the public snapshot after a
+collection with `.venv/bin/python build_dashboard.py --public`, then commit
+`public/index.html`. Pages deploys only the `public/` directory.
+
+### SpaceX and X
+
+SpaceX's updates page is configured in `sources.json`. Collection fails closed
+when robots.txt cannot be fetched; the live SpaceX attempt returned a robots.txt
+404, so no SpaceX records were saved. X requires official developer access and
+`X_BEARER_TOKEN` in the collector's environment (never in browser code or Git).
+Run `.venv/bin/python collect_x.py --username SpaceX --limit 10`.
+API access may cost money; no X posts were collected without a token.
+
+## Historical Newspapers
+
+```sh
+.venv/bin/python collect_newspapers.py --query astronomy --limit 10
+```
+
+This optional collector stores Library of Congress newspaper discovery metadata,
+not full article text. It respects robots.txt; if search is blocked, it records
+the failure in `storage/newspaper_run.json` without bypassing the restriction.
+The dashboard includes that log. Historical reporting is not current scientific
+evidence. The live archive search was blocked during validation, so no historical
+newspaper records were collected. Existing articles remain stored locally.
+
+For a broader bounded modern collection, use
+`python scrape.py --max-articles 20 --max-per-feed 10` so each feed gets a turn.
+
 ### Live Chat Agent
 
 ```sh

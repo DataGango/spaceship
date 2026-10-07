@@ -8,5 +8,12 @@
     "name": "European Space Agency",
     "feed": "https://www.esa.int/rssfeed/Our_Activities/Space_Science",
     "allowed_hosts": ["www.esa.int"]
+  },
+  {
+    "name": "SpaceX",
+    "type": "page",
+    "content_kind": "company_updates_page",
+    "feed": "https://www.spacex.com/updates/",
+    "allowed_hosts": ["www.spacex.com"]
   }
 ]

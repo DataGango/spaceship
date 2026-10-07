@@ -122,9 +122,10 @@ def main():
     parser.add_argument("--output", type=Path, default=ROOT / "storage")
     parser.add_argument("--max-articles", type=int, default=10, help="Maximum saved articles across all feeds")
     parser.add_argument("--delay", type=float, default=2)
+    parser.add_argument("--max-per-feed", type=int, default=10)
     args = parser.parse_args()
-    if args.max_articles < 1:
-        parser.error("--max-articles must be positive")
+    if args.max_articles < 1 or args.max_per_feed < 1:
+        parser.error("Article limits must be positive")
     sources = json.loads(args.config.read_text(encoding="utf-8"))
     collector = Collector([host for source in sources for host in source["allowed_hosts"]], args.delay)
     saved = 0
@@ -134,11 +135,14 @@ def main():
             allowed, delay = collector.allowed(source["feed"])
             if not allowed:
                 raise ValueError("Feed disallowed by robots.txt")
-            links = feed_links(collector.fetch(source["feed"], delay))
+            if source.get("type") == "page":
+                links = [source["feed"]]
+            else:
+                links = feed_links(collector.fetch(source["feed"], delay))
         except (requests.RequestException, ValueError, ET.ParseError, OSError) as error:
             events.append({"url": source["feed"], "status": "failed", "reason": str(error)})
             continue
-        for url in links[:args.max_articles]:
+        for url in links[:args.max_per_feed]:
             if saved >= args.max_articles:
                 break
             try:
@@ -148,6 +152,7 @@ def main():
                     raise ValueError("Article disallowed by robots.txt")
                 article = extract_article(collector.fetch(url, delay))
                 article["publisher"] = source["name"]
+                article["content_kind"] = source.get("content_kind", "article_text")
                 created = store_article(args.output / "articles", url, article)
                 saved += int(created)
                 events.append({"url": url, "status": "saved" if created else "already_stored"})
