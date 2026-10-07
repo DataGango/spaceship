@@ -6,6 +6,8 @@
     ['mission-lab.html', 'Mission Lab'],
     ['drone-survey.html', 'Drone Survey'],
     ['quantum-frontier.html', 'Quantum Frontier'],
+    ['medical-robotics.html', 'Medical Robotics'],
+    ['nano-delivery.html', 'Nano Delivery'],
   ];
   const current = pages.find(([file]) => location.pathname.endsWith('/' + file)) || pages[0];
   const header = document.querySelector('header');
