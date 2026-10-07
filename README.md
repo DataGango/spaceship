@@ -17,6 +17,31 @@ python -m unittest -v
 
 ## Dashboard
 
+### Space, Physics and Mathematics Assistant
+
+This uses an existing LLM, not a newly trained foundation model. Configure
+`OPENAI_API_KEY` privately in the server environment and optionally set
+`OPENAI_MODEL` to a supported chat-completions model. API use may cost money.
+Without a key, answers are labeled retrieved excerpts, not generated explanations.
+
+Retrieval uses SQLite FTS5 stemming and title weighting, with at most two passages
+per document. The LLM is instructed to distinguish cited evidence, derivations,
+and conjectures and preserve source dates and preprint status. Missing/unknown
+citation labels are rejected; this does not prove claim accuracy. Verify original
+papers, formulas and units before relying on answers.
+
+Physics and Mathematics search opens arXiv's original paper index. The local
+collection button attempts ten abstracts per topic; CLI:
+
+```sh
+.venv/bin/python collect_research.py --topic all --limit 10
+```
+
+The live attempt failed because `rss.arxiv.org/robots.txt` returned 404. No new
+physics/math abstracts were stored; the fail-closed policy was preserved. Preprints
+are not assumed peer reviewed, and abstracts are not full papers. The collection
+run panel has been removed; logs remain stored locally.
+
 ### Public dashboard
 
 The public article index is hosted at https://datagango.github.io/spaceship/ after

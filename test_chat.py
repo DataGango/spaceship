@@ -28,6 +28,20 @@ class ChatTests(unittest.TestCase):
             self.assertEqual(result["mode"], "llm")
             self.assertEqual(result["sources"][0]["id"], "S1")
 
+    def test_retrieval_limits_chunks_per_source_and_preserves_preprint_type(self):
+        with tempfile.TemporaryDirectory() as directory:
+            for index in range(3):
+                Path(directory, str(index) + '.json').write_text(json.dumps({"title": "Physics", "text": "Quantum oscillation. " * 400, "url": "https://arxiv.org/abs/" + str(index), "retrieved_at": "2026-10-07", "content_kind": "preprint_abstract"}))
+            results = retrieve("oscillations", directory)
+            self.assertEqual(len(results), 6)
+            self.assertTrue(all(record['content_kind'] == 'preprint_abstract' for record in results))
+
+    def test_invented_citation_is_rejected(self):
+        response = Mock()
+        response.json.return_value = {"choices": [{"message": {"content": "Unsupported result [S99]"}}]}
+        with patch.dict(os.environ, {"OPENAI_API_KEY": "fake"}, clear=True), patch("server.retrieve", return_value=[dict(id="S1", title="Physics", text="Evidence", url="https://arxiv.org/")]), patch("server.requests.post", return_value=response):
+            self.assertEqual(answer("Quantum physics")["mode"], "citation_check_failed")
+
 
 if __name__ == "__main__":
     unittest.main()
