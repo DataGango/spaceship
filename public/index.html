@@ -30,18 +30,77 @@
     <div class="stats"><div><strong id="count">0</strong><span>Stored articles</span></div><div><strong id="publishers">0</strong><span>Publishers collected</span></div><div><strong id="words">0</strong><span>Extracted words</span></div></div>
     <p class="note" id="coverage"></p>
     <p class="chat-status" id="publisher-counts"></p>
+    <section class="robot" aria-labelledby="robot-title">
+      <h2 id="robot-title">Rover planning agent</h2>
+      <div class="robot-controls">
+        <label>Grid mode<select id="robot-mode"><option value="obstacle">Obstacles</option><option value="goal">Goal</option><option value="start">Start</option></select></label>
+        <label>Speed<input id="robot-speed" type="range" min="1" max="10" value="4"></label>
+        <button id="robot-plan" type="button">Plan route</button><button id="robot-run" type="button">Run</button><button id="robot-step" type="button">Step</button><button id="robot-reset" type="button">Reset</button><button id="robot-clear" type="button">Clear obstacles</button>
+      </div>
+      <canvas id="robot-board" width="720" height="480" tabindex="0" aria-label="Rover simulation grid: select a mode and click cells to set obstacles, start or goal"></canvas>
+      <p id="robot-status" role="status">Loading planner...</p>
+      <p class="chat-status">2D grid simulation only. Teal rover, gold goal, red obstacles. No physical robot connection or real-world safety guarantees.</p>
+    </section>
+    <section id="research-search" aria-labelledby="research-title">
+      <h2 id="research-title">Physics &amp; Mathematics papers</h2>
+      <form id="research-form"><label for="research-topic">Field</label><select id="research-topic"><option value="physics">Physics</option><option value="mathematics">Mathematics</option></select><label for="research-query">Search arXiv</label><input id="research-query" type="search" required maxlength="300" placeholder="Quantum gravity, number theory, geometry..."><button type="submit">Find research papers</button></form>
+      <p class="chat-status">arXiv papers are preprints; inclusion does not establish peer review.</p>
+    </section>
     <section class="chat" aria-labelledby="chat-title">
-      <h2 id="chat-title">Ask about space</h2>
+      <h2 id="chat-title">Ask about space, physics &amp; mathematics</h2>
       <p class="chat-status" id="chat-status" role="status">Connecting to local agent...</p>
       <form id="chat-form"><label for="question">Question</label><textarea id="question" required maxlength="1000" placeholder="What will Dragon deliver to the space station?"></textarea><button id="ask" type="submit">Ask</button><button id="collect" type="button">Refresh sources</button></form>
       <p class="chat-status">Questions and answers are saved locally. Do not enter private information. Answers cover only collected sources and may be incomplete.</p>
       <div id="conversation" aria-live="polite"></div>
+      <button id="collect-research" type="button">Collect physics &amp; math abstracts</button>
     </section>
     <div class="workspace"><aside><div class="controls"><label for="query">Search collected text</label><input id="query" type="search" placeholder="Mission, spacecraft, research..."><label for="publisher">Publisher</label><select id="publisher"><option value="">All publishers</option></select></div><div id="articles"></div></aside>
       <article class="reader" aria-live="polite"><h2 id="title">Select an article</h2><div class="metadata" id="metadata"></div><div class="source"><a id="source" target="_blank" rel="noopener noreferrer">Open original article</a><button id="download" type="button">Download article JSON</button></div><div id="article-text"></div></article></div>
-    <details><summary>Latest collection run</summary><div id="events"></div></details>
   </main>
   <script id="collected-data" type="application/json">{"articles": [{"title": "NASA\u2019s SpaceX 35th Commercial Resupply Mission Overview", "publisher": "NASA", "url": "https://www.nasa.gov/general/nasas-spacex-35th-commercial-resupply-mission-overview/", "published_at": "2026-10-07T16:17:16-04:00", "retrieved_at": "2026-10-07T21:57:53.344353+00:00", "content_kind": null, "text": "Read this article at its original publisher using the source link above."}, {"title": "ESA - Successful Earth flyby improves Juice\u2019s course to Jupiter", "publisher": "European Space Agency", "url": "https://www.esa.int/Science_Exploration/Space_Science/Juice/Successful_Earth_flyby_improves_Juice_s_course_to_Jupiter", "published_at": null, "retrieved_at": "2026-10-07T22:16:18.239426+00:00", "content_kind": null, "text": "Read this article at its original publisher using the source link above."}, {"title": "Artemis II Crew Moon Photo Annotations", "publisher": "NASA", "url": "https://www.nasa.gov/image-article/artemis-ii-crew-moon-photo-annotations/", "published_at": null, "retrieved_at": "2026-10-07T22:07:33.378070+00:00", "content_kind": null, "text": "Read this article at its original publisher using the source link above."}, {"title": "Supernova Remnant Pa 30", "publisher": "NASA", "url": "https://science.nasa.gov/image-article/apod-2026-october-7-supernova-remnant-pa-30/", "published_at": "2026-10-07T00:05:00-04:00", "retrieved_at": "2026-10-07T22:07:35.368318+00:00", "content_kind": null, "text": "Read this article at its original publisher using the source link above."}, {"title": "ESA - Science begins for Smile", "publisher": "European Space Agency", "url": "https://www.esa.int/Science_Exploration/Space_Science/Smile/Science_begins_for_Smile", "published_at": null, "retrieved_at": "2026-10-07T22:07:51.342548+00:00", "content_kind": null, "text": "Read this article at its original publisher using the source link above."}, {"title": "NASA\u2019s Curiosity Looks Back After Reaching Elevation Milestone", "publisher": "NASA", "url": "https://science.nasa.gov/photojournal/nasas-curiosity-looks-back-after-reaching-elevation-milestone/", "published_at": "2026-10-07T13:00:47-04:00", "retrieved_at": "2026-10-07T22:07:29.366848+00:00", "content_kind": null, "text": "Read this article at its original publisher using the source link above."}, {"title": "ESA - Mars\u2019s oddest cloud may be even odder than we thought", "publisher": "European Space Agency", "url": "https://www.esa.int/Science_Exploration/Space_Science/Mars_Express/Mars_s_oddest_cloud_may_be_even_odder_than_we_thought", "published_at": null, "retrieved_at": "2026-10-07T22:07:47.330062+00:00", "content_kind": null, "text": "Read this article at its original publisher using the source link above."}, {"title": "NASA to Cover Northrop Grumman CRS-24 Spacecraft Departure", "publisher": "NASA", "url": "https://www.nasa.gov/news-release/nasa-to-cover-northrop-grumman-crs-24-spacecraft-departure/", "published_at": null, "retrieved_at": "2026-10-07T22:07:39.402331+00:00", "content_kind": null, "text": "Read this article at its original publisher using the source link above."}, {"title": "ESA - Happy New Year on Mars", "publisher": "European Space Agency", "url": "https://www.esa.int/Science_Exploration/Human_and_Robotic_Exploration/Happy_New_Year_on_Mars", "published_at": null, "retrieved_at": "2026-10-07T22:16:14.339326+00:00", "content_kind": null, "text": "Read this article at its original publisher using the source link above."}, {"title": "NASA\u2019s Curiosity Captures Dawn Breaking on Wind-Carved Cliffs", "publisher": "NASA", "url": "https://science.nasa.gov/photojournal/nasas-curiosity-captures-dawn-breaking-on-wind-carved-cliffs/", "published_at": "2026-10-07T12:49:50-04:00", "retrieved_at": "2026-10-07T22:07:31.386135+00:00", "content_kind": null, "text": "Read this article at its original publisher using the source link above."}, {"title": "October 2026 Satellite Puzzler", "publisher": "NASA", "url": "https://science.nasa.gov/earth/earth-observatory/october-2026-satellite-puzzler/", "published_at": "2026-10-06T14:27:38-04:00", "retrieved_at": "2026-10-07T22:07:41.388621+00:00", "content_kind": null, "text": "Read this article at its original publisher using the source link above."}, {"title": "ESA - Win a trip to ESA to witness BepiColombo arrive at Mercury", "publisher": "European Space Agency", "url": "https://www.esa.int/Science_Exploration/Space_Science/BepiColombo/Win_a_trip_to_ESA_to_witness_BepiColombo_arrive_at_Mercury", "published_at": null, "retrieved_at": "2026-10-07T22:16:20.302108+00:00", "content_kind": null, "text": "Read this article at its original publisher using the source link above."}, {"title": "NASA\u2019s PRIMA Spacecraft (Artist\u2019s Concept)", "publisher": "NASA", "url": "https://science.nasa.gov/photojournal/nasas-prima-spacecraft-artists-concept/", "published_at": "2026-10-07T16:15:49-04:00", "retrieved_at": "2026-10-07T22:07:27.369887+00:00", "content_kind": null, "text": "Read this article at its original publisher using the source link above."}, {"title": "Arctic Sea Ice Shrinks to Its 2026 Minimum", "publisher": "NASA", "url": "https://science.nasa.gov/earth/earth-observatory/arctic-sea-ice-shrinks-to-its-2026-minimum/", "published_at": "2026-10-07T00:00:00-04:00", "retrieved_at": "2026-10-07T22:07:37.396906+00:00", "content_kind": null, "text": "Read this article at its original publisher using the source link above."}, {"title": "NASA Sets Coverage for SpaceX 35th Station Resupply Launch, Arrival", "publisher": "NASA", "url": "https://www.nasa.gov/news-release/nasa-sets-coverage-for-spacex-35th-station-resupply-launch-arrival/", "published_at": null, "retrieved_at": "2026-10-07T21:57:51.349793+00:00", "content_kind": null, "text": "Read this article at its original publisher using the source link above."}], "events": [{"url": "https://www.nasa.gov/news-release/nasa-sets-coverage-for-spacex-35th-station-resupply-launch-arrival/", "status": "already_stored"}, {"url": "https://www.nasa.gov/general/nasas-spacex-35th-commercial-resupply-mission-overview/", "status": "already_stored"}, {"url": "https://science.nasa.gov/photojournal/nasas-prima-spacecraft-artists-concept/", "status": "already_stored"}, {"url": "https://science.nasa.gov/photojournal/nasas-curiosity-looks-back-after-reaching-elevation-milestone/", "status": "already_stored"}, {"url": "https://science.nasa.gov/photojournal/nasas-curiosity-captures-dawn-breaking-on-wind-carved-cliffs/", "status": "already_stored"}, {"url": "https://www.nasa.gov/image-article/artemis-ii-crew-moon-photo-annotations/", "status": "already_stored"}, {"url": "https://science.nasa.gov/image-article/apod-2026-october-7-supernova-remnant-pa-30/", "status": "already_stored"}, {"url": "https://science.nasa.gov/earth/earth-observatory/arctic-sea-ice-shrinks-to-its-2026-minimum/", "status": "already_stored"}, {"url": "https://www.nasa.gov/news-release/nasa-to-cover-northrop-grumman-crs-24-spacecraft-departure/", "status": "already_stored"}, {"url": "https://science.nasa.gov/earth/earth-observatory/october-2026-satellite-puzzler/", "status": "already_stored"}, {"url": "https://www.esa.int/Science_Exploration/Space_Science/Mars_Express/Mars_s_oddest_cloud_may_be_even_odder_than_we_thought", "status": "already_stored"}, {"url": "https://www.esa.int/ESA_Multimedia/Images/2026/10/Webb_captures_commotion_from_nebula_s_stellar_jets", "status": "failed"}, {"url": "https://www.esa.int/Science_Exploration/Space_Science/Smile/Science_begins_for_Smile", "status": "already_stored"}, {"url": "https://www.esa.int/Science_Exploration/Human_and_Robotic_Exploration/Happy_New_Year_on_Mars", "status": "already_stored"}, {"url": "https://www.esa.int/ESA_Multimedia/Images/2026/09/Galaxies_in_a_cosmic_house_of_mirrors", "status": "failed"}, {"url": "https://www.esa.int/Science_Exploration/Space_Science/Juice/Successful_Earth_flyby_improves_Juice_s_course_to_Jupiter", "status": "already_stored"}, {"url": "https://www.esa.int/Science_Exploration/Space_Science/BepiColombo/Win_a_trip_to_ESA_to_witness_BepiColombo_arrive_at_Mercury", "status": "already_stored"}, {"url": "https://www.esa.int/ESA_Multimedia/Images/2026/09/A_galaxy_spinning_out_of_sync", "status": "failed"}, {"url": "https://www.esa.int/ESA_Multimedia/Videos/2026/09/BepiColombo_s_Mercury_arrival_begins_-_full_replay", "status": "failed"}, {"url": "https://www.esa.int/ESA_Multimedia/Images/2026/09/Hubble_s_superbubble_scene", "status": "failed"}, {"url": "https://www.spacex.com/updates/", "status": "failed"}, {"url": "https://www.loc.gov/search/?fo=json&fa=original-format%3Anewspaper&q=astronomy&c=10", "status": "failed"}, {"url": "https://x.com/SpaceX", "status": "failed"}], "public": true}</script>
+  <style>
+    .robot{padding:22px 0;border-top:3px solid #00796d;margin:20px 0}.robot h2{font:26px Georgia,serif}.robot-controls{display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin-bottom:16px}.robot-controls label{max-width:170px}.robot-controls button{background:white;border:1px solid #66767b;border-radius:4px;padding:9px 14px;cursor:pointer;color:#20333a}.robot-controls button:disabled{opacity:.5;cursor:not-allowed}#robot-board{display:block;width:min(100%,720px);height:auto;aspect-ratio:3/2;border:1px solid #d9e2e4;touch-action:manipulation}#robot-status{font-size:13px}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/pathfinding@0.4.18/visual/lib/pathfinding-browser.min.js"></script>
+  <script>
+    const board=document.querySelector('#robot-board'),ctx=board.getContext('2d');
+    const columns=12,rows=8,cell=60;
+    let rover=[0,0],start=[0,0],goal=[11,7],walls=new Set(['4,1','4,2','4,3','4,4','4,5','8,4','8,5','8,6']),route=[],steps=0,timer=null;
+    const key=point=>point.join(',');
+    function robotStop(){if(timer)clearInterval(timer);timer=null;document.querySelector('#robot-run').textContent='Run';}
+    function robotDraw(){
+      ctx.fillStyle='#f5f8f8';ctx.fillRect(0,0,720,480);
+      for(let row=0;row<rows;row++)for(let column=0;column<columns;column++){
+        ctx.strokeStyle='#d9e2e4';ctx.strokeRect(column*cell,row*cell,cell,cell);
+        if(walls.has(`${column},${row}`)){ctx.fillStyle='#c45647';ctx.fillRect(column*cell+8,row*cell+8,44,44);}
+      }
+      if(route.length){ctx.beginPath();ctx.moveTo(rover[0]*cell+30,rover[1]*cell+30);for(const point of route)ctx.lineTo(point[0]*cell+30,point[1]*cell+30);ctx.strokeStyle='#5083a0';ctx.lineWidth=4;ctx.stroke();}
+      ctx.fillStyle='#d49b22';ctx.fillRect(goal[0]*cell+15,goal[1]*cell+15,30,30);
+      ctx.fillStyle='#00796d';ctx.beginPath();ctx.arc(rover[0]*cell+30,rover[1]*cell+30,20,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle='white';ctx.fillRect(rover[0]*cell+24,rover[1]*cell+23,12,10);
+    }
+    function robotStatus(message){document.querySelector('#robot-status').textContent=`${message} | Steps: ${steps} | Remaining: ${route.length}`;robotDraw();}
+    function robotPlan(){
+      robotStop();route=[];
+      if(!window.PF){robotStatus('Planner unavailable: check internet access to the library');return;}
+      const grid=new PF.Grid(columns,rows);for(const wall of walls){const point=wall.split(',').map(Number);grid.setWalkableAt(point[0],point[1],false);}
+      route=new PF.AStarFinder({allowDiagonal:false}).findPath(...rover,...goal,grid).slice(1);
+      robotStatus(key(rover)===key(goal)?'Goal reached':route.length?'Route planned':'No reachable route');
+    }
+    function robotStep(){if(!route.length){robotStop();robotStatus(key(rover)===key(goal)?'Goal reached':'Plan a route first');return;}rover=route.shift();steps++;if(!route.length)robotStop();robotStatus(route.length?'Moving':'Goal reached');}
+    board.addEventListener('click',event=>{robotStop();route=[];const bounds=board.getBoundingClientRect();const point=[Math.floor((event.clientX-bounds.left)/bounds.width*columns),Math.floor((event.clientY-bounds.top)/bounds.height*rows)];if(point[0]<0||point[0]>=columns||point[1]<0||point[1]>=rows)return;const mode=document.querySelector('#robot-mode').value;
+      if(mode==='obstacle'){if(key(point)!==key(rover)&&key(point)!==key(goal)){walls.has(key(point))?walls.delete(key(point)):walls.add(key(point));}}
+      else if(!walls.has(key(point))){if(mode==='goal')goal=point;else{start=point;rover=[...point];steps=0;}}
+      robotStatus('Grid updated');
+    });
+    document.querySelector('#robot-plan').onclick=robotPlan;
+    document.querySelector('#robot-step').onclick=()=>{robotStop();robotStep();};
+    document.querySelector('#robot-run').onclick=()=>{if(timer){robotStop();robotStatus('Paused');return;}if(!route.length)robotPlan();if(route.length){timer=setInterval(robotStep,1100-Number(document.querySelector('#robot-speed').value)*100);document.querySelector('#robot-run').textContent='Pause';}};
+    document.querySelector('#robot-reset').onclick=()=>{robotStop();rover=[...start];route=[];steps=0;robotStatus('Reset');};
+    document.querySelector('#robot-clear').onclick=()=>{robotStop();walls.clear();route=[];robotStatus('Obstacles cleared');};
+    document.querySelector('#robot-speed').oninput=()=>{if(timer){robotStop();document.querySelector('#robot-run').click();}};
+    robotStatus(window.PF?'Ready':'Planner unavailable: check internet access');
+  </script>
   <script>
     const data=JSON.parse(document.querySelector('#collected-data').textContent);
     const records=data.articles;
@@ -58,7 +117,7 @@
       selected=record;
       document.querySelector('#title').textContent=record.title;
       const metadata=document.querySelector('#metadata');metadata.replaceChildren();
-      for(const label of [`Publisher: ${record.publisher}`,`Published: ${record.published_at||'Not available in extraction'}`,`Retrieved: ${new Date(record.retrieved_at).toLocaleString()}`,`${record.content_kind||'article_text'} / ${record.text.length.toLocaleString()} characters`]){const element=document.createElement('span');element.textContent=label;metadata.append(element)}
+      for(const label of [`Publisher: ${record.publisher}`,`Published: ${record.published_at||'Not available in extraction'}`,`Retrieved: ${new Date(record.retrieved_at).toLocaleString()}`,data.public?'Source metadata only':`${record.content_kind||'article_text'} / ${record.text.length.toLocaleString()} characters`]){const element=document.createElement('span');element.textContent=label;metadata.append(element)}
       const source=document.querySelector('#source');source.href=record.url;
       const body=document.querySelector('#article-text');body.replaceChildren();
       for(const paragraph of record.text.split(/\n\n+/)){const element=document.createElement('p');element.textContent=paragraph;body.append(element)}
@@ -69,13 +128,19 @@
       const publisher=document.querySelector('#publisher').value;
       const matches=records.filter(record=>(!publisher||record.publisher===publisher)&&(`${record.title} ${record.text}`).toLowerCase().includes(term));
       const container=document.querySelector('#articles');container.replaceChildren();
-      for(const record of matches){const button=document.createElement('button');button.className='item';button.type='button';button.setAttribute('aria-pressed',String(selected===record));const title=document.createElement('strong');title.textContent=record.title;const meta=document.createElement('span');meta.textContent=`${record.publisher} / ${record.text.length.toLocaleString()} characters`;button.append(title,meta);button.addEventListener('click',()=>show(record));container.append(button)}
+      for(const record of matches){const button=document.createElement('button');button.className='item';button.type='button';button.setAttribute('aria-pressed',String(selected===record));const title=document.createElement('strong');title.textContent=record.title;const meta=document.createElement('span');meta.textContent=data.public?record.publisher:`${record.publisher} / ${record.text.length.toLocaleString()} characters`;button.append(title,meta);button.addEventListener('click',()=>show(record));container.append(button)}
       if(!matches.length){const message=document.createElement('p');message.className='empty';message.textContent='No matching articles.';container.append(message)}
     }
     document.querySelector('#query').addEventListener('input',list);
     document.querySelector('#publisher').addEventListener('change',list);
+    document.querySelector('#research-form').addEventListener('submit',event=>{
+      event.preventDefault();
+      const url=new URL(`https://arxiv.org/search/${document.querySelector('#research-topic').value}/`);
+      url.searchParams.set('query',document.querySelector('#research-query').value.trim());
+      url.searchParams.set('searchtype','all');url.searchParams.set('order','-announced_date_first');
+      window.open(url.href,'_blank','noopener,noreferrer');
+    });
     document.querySelector('#download').addEventListener('click',()=>{if(!selected)return;const url=URL.createObjectURL(new Blob([JSON.stringify(selected,null,2)],{type:'application/json'}));const link=document.createElement('a');link.href=url;link.download='space-article.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});
-    for(const event of data.events){const element=document.createElement('div');element.className='event';element.textContent=`${event.status}: ${event.url}${event.reason?' / '+event.reason:''}`;document.querySelector('#events').append(element)}
     if(selected)show(selected);else{list();document.querySelector('.source').hidden=true}
     const chatStatus=document.querySelector('#chat-status');
     function showAnswer(result){
@@ -98,6 +163,10 @@
     document.querySelector('#collect').addEventListener('click',async()=>{
       const button=document.querySelector('#collect');button.disabled=true;chatStatus.textContent='Collecting up to 10 new articles; this may take a few minutes...';
       try{const response=await fetch('/api/collect',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});const result=await response.json();if(!response.ok||!result.success)throw Error(result.error||'Collection failed');location.reload()}catch(error){chatStatus.textContent=error.message;button.disabled=false}
+    });
+    document.querySelector('#collect-research').addEventListener('click',async()=>{
+      const button=document.querySelector('#collect-research');button.disabled=true;chatStatus.textContent='Collecting bounded research abstracts...';
+      try{const response=await fetch('/api/research',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});const result=await response.json();if(!response.ok||!result.success)throw Error(result.events?.map(event=>event.reason).filter(Boolean).join('; ')||result.error||'No research abstracts collected');location.reload()}catch(error){chatStatus.textContent=error.message}finally{button.disabled=false}
     });
   </script>
 </body>
