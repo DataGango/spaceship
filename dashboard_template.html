@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Spaceship | Space Research Desk</title>
+  <title>Astra Institute | Research Observatory</title>
   <style>
     :root{--ink:#20333a;--muted:#66767b;--line:#d9e2e4;--teal:#00796d;--red:#c45647;--paper:#f5f8f8}
     *{box-sizing:border-box}body{margin:0;color:var(--ink);background:var(--paper);font:15px/1.6 'Avenir Next',Avenir,'Segoe UI',sans-serif}
@@ -22,14 +22,23 @@
     #article-text p{margin:0 0 17px;white-space:pre-wrap;overflow-wrap:anywhere;max-width:850px}.source{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:22px}.source button{border:1px solid var(--line);background:white;padding:5px 12px;border-radius:4px;cursor:pointer}
     details{border-top:1px solid var(--line);margin-top:26px;padding-top:15px}summary{cursor:pointer;color:var(--teal)}.event{padding:8px 0;border-bottom:1px solid var(--line);font-size:12px;overflow-wrap:anywhere}.empty{color:var(--muted)}:focus-visible{outline:2px solid var(--teal);outline-offset:3px}
     @media(max-width:850px){.workspace{grid-template-columns:1fr}.metadata{grid-template-columns:1fr}main{padding:20px 16px}header{padding:18px 16px}.stats{gap:10px}.reader h2{font-size:26px}}
+    header h1{font:600 26px/1.2 'Avenir Next',Avenir,sans-serif}header .mark{width:44px;height:44px}
+    .desk-nav{display:flex;gap:26px;background:white;border-bottom:1px solid var(--line);padding:12px 30px;overflow:auto;white-space:nowrap}.desk-nav a{text-decoration:none;font-size:12px;font-weight:700}.desk-nav a[aria-current]{border-bottom:2px solid var(--teal)}
+    .stats strong{font:600 28px/1.2 'Avenir Next',Avenir,sans-serif}.stats>div+div{border-left:1px solid var(--line);padding-left:20px}.note{background:transparent;border-left:2px solid var(--red);font-size:12px;color:var(--muted)}
+    .workspace{grid-template-columns:330px minmax(0,1fr);border-top:1px solid var(--line);padding-top:22px}.reader{border-top:0;padding:0 0 0 20px;border-left:1px solid var(--line)}.reader h2{font:500 24px/1.4 'Avenir Next',Avenir,sans-serif}#articles{max-height:650px;overflow:auto}.item{border:0;border-bottom:1px solid var(--line);background:transparent;border-radius:0;margin:0;padding:14px}.item[aria-pressed=true]{background:#e6f0ed}.item strong{font-size:13px}
+    #research-search{padding:22px 0;border-top:1px solid var(--line)}#research-title{font-size:22px}#research-form{display:grid;grid-template-columns:180px minmax(0,1fr) auto;gap:8px 12px;align-items:end}#research-form label:first-child{grid-column:1;grid-row:1}#research-topic{grid-column:1;grid-row:2}label[for=research-query]{grid-column:2;grid-row:1}#research-query{grid-column:2;grid-row:2}#research-form button{grid-column:3;grid-row:2;border:0;border-radius:4px;background:var(--teal);color:white;padding:10px 18px;cursor:pointer}.refresh-date{font-size:11px;color:var(--muted)}
+    body.public-view .robot{display:none}
+    @media(max-width:850px){.workspace{grid-template-columns:1fr}.reader{border-left:0;padding-left:0}#articles{max-height:320px}#research-form{grid-template-columns:1fr}#research-form label:first-child,#research-topic,label[for=research-query],#research-query,#research-form button{grid-column:auto;grid-row:auto}.desk-nav{padding:12px 16px}}
   </style>
 </head>
 <body>
-  <header><div><h1>Spaceship</h1><p>Space research desk / current reporting and historical archives</p></div><svg class="mark" viewBox="0 0 80 80" role="img" aria-label="Spaceship rocket logo"><rect width="80" height="80" rx="8" fill="#00796d"/><path d="M40 12C27 26 25 39 28 52H52C55 39 53 26 40 12Z" fill="white"/><circle cx="40" cy="34" r="7" fill="#00796d"/><path d="M28 42L18 58L29 55M52 42L62 58L51 55" fill="#bfe2dc"/><path d="M34 56L40 71L46 56Z" fill="#f8b149"/></svg></header>
+  <header><div><h1>Astra Institute</h1><p>Research Observatory · Space science &amp; discovery</p></div><svg class="mark" viewBox="0 0 80 80" role="img" aria-label="Astra Institute emblem"><rect width="80" height="80" rx="8" fill="#176c62"/><path d="M18 62L40 15L62 62H50L40 39L30 62Z" fill="white"/><circle cx="40" cy="62" r="5" fill="#e7b54c"/></svg></header>
+  <nav class="desk-nav" aria-label="Workspace pages"><a href="index.html" aria-current="page">Research Desk</a><a href="mission-lab.html" id="mission-link">Mission Lab</a><a href="quantum-frontier.html" id="quantum-link">Quantum Frontier</a><a href="#research-search">Frontier Research</a></nav>
   <main>
     <div class="stats"><div><strong id="count">0</strong><span>Stored articles</span></div><div><strong id="publishers">0</strong><span>Publishers collected</span></div><div><strong id="words">0</strong><span>Extracted words</span></div></div>
     <p class="note" id="coverage"></p>
     <p class="chat-status" id="publisher-counts"></p>
+    <p class="refresh-date" id="snapshot-date"></p>
     <section class="robot" aria-labelledby="robot-title">
       <h2 id="robot-title">Rover planning agent</h2>
       <div class="robot-controls">
@@ -42,12 +51,12 @@
       <p class="chat-status">2D grid simulation only. Teal rover, gold goal, red obstacles. No physical robot connection or real-world safety guarantees.</p>
     </section>
     <section id="research-search" aria-labelledby="research-title">
-      <h2 id="research-title">Physics &amp; Mathematics papers</h2>
+      <h2 id="research-title">Frontier Research</h2>
       <form id="research-form"><label for="research-topic">Field</label><select id="research-topic"><option value="physics">Physics</option><option value="mathematics">Mathematics</option></select><label for="research-query">Search arXiv</label><input id="research-query" type="search" required maxlength="300" placeholder="Quantum gravity, number theory, geometry..."><button type="submit">Find research papers</button></form>
       <p class="chat-status">arXiv papers are preprints; inclusion does not establish peer review.</p>
     </section>
     <section class="chat" aria-labelledby="chat-title">
-      <h2 id="chat-title">Ask about space, physics &amp; mathematics</h2>
+      <h2 id="chat-title">Research Intelligence</h2>
       <p class="chat-status" id="chat-status" role="status">Connecting to local agent...</p>
       <form id="chat-form"><label for="question">Question</label><textarea id="question" required maxlength="1000" placeholder="What will Dragon deliver to the space station?"></textarea><button id="ask" type="submit">Ask</button><button id="collect" type="button">Refresh sources</button></form>
       <p class="chat-status">Questions and answers are saved locally. Do not enter private information. Answers cover only collected sources and may be incomplete.</p>
@@ -104,6 +113,10 @@
   <script>
     const data=JSON.parse(document.querySelector('#collected-data').textContent);
     const records=data.articles;
+    document.querySelector('#snapshot-date').textContent=data.generated_at?`Snapshot refreshed: ${new Date(data.generated_at).toLocaleString()}`:'Snapshot date unavailable';
+    document.body.classList.toggle('public-view',Boolean(data.public));
+    if(!data.public)document.querySelector('#mission-link').href='public/mission-lab.html';
+    if(!data.public)document.querySelector('#quantum-link').href='public/quantum-frontier.html';
     let selected=records[0]||null;
     const names=[...new Set(records.map(record=>record.publisher))];
     document.querySelector('#count').textContent=records.length;

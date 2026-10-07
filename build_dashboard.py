@@ -2,6 +2,7 @@
 
 import argparse
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 
 
@@ -23,8 +24,38 @@ def build(public=False):
         for record in articles:
             record["text"] = "Read this article at its original publisher using the source link above."
         events = [{key: event[key] for key in ("url", "status") if key in event} for event in events]
+        previous = ROOT / "public/index.html"
+        if previous.exists():
+            from html.parser import HTMLParser
+
+            class SnapshotParser(HTMLParser):
+                def __init__(self):
+                    super().__init__()
+                    self.active = False
+                    self.parts = []
+
+                def handle_starttag(self, tag, attrs):
+                    if tag == "script" and dict(attrs).get("id") == "collected-data":
+                        self.active = True
+
+                def handle_endtag(self, tag):
+                    if tag == "script":
+                        self.active = False
+
+                def handle_data(self, text):
+                    if self.active:
+                        self.parts.append(text)
+
+            parser = SnapshotParser()
+            parser.feed(previous.read_text(encoding="utf-8"))
+            earlier = json.loads("".join(parser.parts)).get("articles", [])
+            merged = {record["url"]: record for record in earlier}
+            merged.update({record["url"]: record for record in articles})
+            articles = list(merged.values())
+            for record in articles:
+                record["text"] = "Read this article at its original publisher using the source link above."
     template = (ROOT / "dashboard_template.html").read_text(encoding="utf-8")
-    payload = json.dumps({"articles": articles, "events": events, "public": public}, ensure_ascii=True).replace("<", "\\u003c")
+    payload = json.dumps({"articles": articles, "events": events, "public": public, "generated_at": datetime.now(timezone.utc).isoformat()}, ensure_ascii=True).replace("<", "\\u003c")
     output = ROOT / "public/index.html" if public else ROOT / "dashboard.html"
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(template.replace("__COLLECTED_DATA__", payload), encoding="utf-8")
